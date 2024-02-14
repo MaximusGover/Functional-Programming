@@ -38,4 +38,4 @@ averageThree :: Int -> Int -> Int -> Float
 averageThree v1 v2 v3 = fromIntegral (v1 + v2 + v3) / 3
 
 absolute :: Int -> Int
-absolute num = if num >= 0 then num else num * (-1)
+absolute num = if num >= 0 then num else -num
