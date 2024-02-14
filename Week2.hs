@@ -22,7 +22,7 @@ pizzaCalories diameter toppings = (11.5 + toppingCalories) * area
 absolute :: Int -> Int
 absolute num
   | num >= 0 = num
-  | otherwise = num * (-1)
+  | otherwise = -num
 
 sign :: Int -> Int
 sign num
@@ -37,9 +37,9 @@ howManyEqual v1 v2 v3
   | otherwise = 0
 
 sumDiagonalLengths :: Float -> Float -> Float -> Float
-sumDiagonalLengths s1 s2 s3 = mult s1 + mult s2 + mult s3
+sumDiagonalLengths s1 s2 s3 = diag s1 + diag s2 + diag s3
   where
-    mult num = sqrt (2 * num ^ 2)
+    diag num = sqrt (2 * num ^ 2)
 
 taxiFare :: Int -> Float
 taxiFare dist
@@ -49,10 +49,11 @@ taxiFare dist
 howManyAboveAverage :: Int -> Int -> Int -> Int
 howManyAboveAverage v1 v2 v3
   | v1 == v2 && v1 == v3 = 0
-  | v1 > average && v2 > average || v1 > average && v3 > average || v2 > average && v3 > average = 2
+  | f v1 > average && f v2 > average || f v1 > average && f v3 > average || f v2 > average && f v3 > average = 2
   | otherwise = 1
   where
-    average = (v1 + v2 + v3) `div` 3
+    average = fromIntegral (v1 + v2 + v3) / 3
+    f = fromIntegral
 
 validDate :: Int -> Int -> Bool
 validDate d m
