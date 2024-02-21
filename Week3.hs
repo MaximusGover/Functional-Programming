@@ -71,7 +71,7 @@ False && False = False
 
 -- An alternative re-implementation
 -- (&&) :: Bool -> Bool -> Bool
--- && True   = True
+-- True && True   = True
 -- _ && _           = False
 
 -- Another alternative re-implementation
@@ -85,16 +85,18 @@ exOr True x = not x
 
 ifThenElse :: Bool -> Int -> Int -> Int
 ifThenElse True x y = x
-ifThenElse _ x y = y
+ifThenElse False x y = y
 
 daysInMonth :: Int -> Int
 daysInMonth 2 = 28
-daysInMonth n | odd n = 31
-daysInMonth n = 30
+daysInMonth 4 = 30
+daysInMonth 6 = 30
+daysInMonth 9 = 30
+daysInMonth 11 = 30
+daysInMonth n = 31
 
 validDate :: Int -> Int -> Bool
-validDate d m | daysInMonth m >= d = True
-validDate d m = False
+validDate d m = m >= 1 && m <= 12 && daysInMonth m >= d && d >= 1
 
 sumNumbers :: Int -> Int
 sumNumbers 0 = 0
@@ -115,17 +117,20 @@ sumSquares n = sumSquares (n - 1) + n ^ 2
 --   | otherwise = sumSquares (n - 1) + n ^ 2
 
 power :: Int -> Int -> Int
+power v1 0 = 1
 power v1 1 = v1
 power v1 v2 = power v1 (v2 - 1) * v1
 
 -- power :: Int -> Int -> Int
 -- power v1 v2
+--   | v2 == 0 = 1
 --   | v2 == 1 = v1
 --   | otherwise = power v1 (v2 - 1) * v1
 
 sumFromTo :: Int -> Int -> Int
-sumFromTo v1 v2 | v1 > v2 = 0
-sumFromTo v1 v2 = sumFromTo (v1 + 1) v2 + v1
+sumFromTo v1 v2 
+    | v1 > v2 = 0
+    | otherwise = sumFromTo (v1 + 1) v2 + v1
 
 -- sumFromTo :: Int -> Int -> Int
 -- sumFromTo v1 v2
@@ -144,6 +149,11 @@ gcd v1 v2 = gcd v2 (v1 `mod` v2)
 intSquareRoot :: Int -> Int
 intSquareRoot n = findRoot n n
 
+-- findRoot :: Int -> Int -> Int
+-- findRoot n s | s * s <= n = s
+-- findRoot n s = findRoot n (s - 1)
+
 findRoot :: Int -> Int -> Int
-findRoot n s | s * s <= n = s
-findRoot n s = findRoot n (s - 1)
+findRoot n s 
+  | s * s <= n = s
+  | otherwise = findRoot n (s - 1)
