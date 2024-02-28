@@ -58,7 +58,7 @@ sumDifference v1 v2 = (v1 + v2, v1 - v2)
 --     diff = v1 - v2
 
 grade :: StudentMark -> Char
-grade (s, m)
+grade (_, m)
   | m > 100 || m < 0 = error "Not a valid mark"
   | m > 70 = 'A'
   | m > 60 = 'B'
@@ -85,7 +85,7 @@ onlyDigits :: String -> String
 onlyDigits inp = [x | x <- inp, isDigit x]
 
 capMarks :: [StudentMark] -> [StudentMark]
-capMarks stmks = [capMark (s, m) | (s, m) <- stmks]
+capMarks stmks = [capMark x| x <- stmks]
 
 gradeStudents :: [StudentMark] -> [(String, Char)]
 gradeStudents stmks = [(s, grade (s, m)) | (s, m) <- stmks]
@@ -96,23 +96,16 @@ gradeStudents stmks = [(s, grade (s, m)) | (s, m) <- stmks]
 --   | otherwise = duplicate str (times - 1) ++ str
 
 duplicate :: String -> Int -> String
-duplicate str times = concat lists
-  where
-    lists = [str | lists <- [1 .. times]]
+duplicate str times = concat [str | _ <- [1 .. times]]
 
 divisors :: Int -> [Int]
 divisors num = [i | i <- [1 .. num], num `mod` i == 0]
 
 isPrime :: Int -> Bool
-isPrime num
-  | length (divisors num) == 2 = True
-  | otherwise = False
+isPrime num = length (divisors num) == 2
 
 -- split :: [(a, b)] -> ([a], [b])
 -- split inp = (map fst inp, map snd inp)
 
 split :: [(a, b)] -> ([a], [b])
-split inp = (l1, l2)
-  where
-    l1 = [x | (x, _) <- inp]
-    l2 = [y | (_, y) <- inp]
+split inp = ([x | (x, _) <- inp], [y | (_, y) <- inp])
