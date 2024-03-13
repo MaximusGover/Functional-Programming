@@ -128,6 +128,7 @@ sorted (x : y : xs)
 
 prefix :: [Int] -> [Int] -> Bool
 prefix [] _ = True
+prefix _ [] = False
 prefix (x : xs) (y : ys)
   | x == y = prefix xs ys
   | otherwise = False
