@@ -67,15 +67,17 @@ squareRoots :: [Float] -> [Float]
 squareRoots = map sqrt . filter (>= 0)
 
 countBetween :: Float -> Float -> [Float] -> Int
-countBetween lb ub = length . filter (\x -> x >= lb && x <= ub)
+-- countBetween lb ub = length . filter (\x -> x >= lb && x <= ub)
+countBetween lb ub = length . filter (>=lb) . filter (<= ub)
 
 alwaysPositive :: (Float -> Float) -> [Float] -> Bool
--- alwaysPositive f xs = length (filter (> 0) (map f xs)) == length xs
+alwaysPositive f xs = length (filter (> 0) (map f xs)) == length xs
 -- alwaysPositive f xs = andAll (map (\x -> f x > 0) xs)
-alwaysPositive f = andAll . map (\x -> f x > 0)
+-- alwaysPositive f = andAll . map (\x -> f x > 0)
+-- alwaysPositive f = foldr (\x -> x>0) True . map f
 
 productSquareRoots :: [Float] -> Float
-productSquareRoots xs = foldr ((*) . sqrt) 1 (filter (>= 0) xs)
+productSquareRoots = foldr ((*) . sqrt) 1 . filter (>= 0)
 
 removeFirst :: (a -> Bool) -> [a] -> [a]
 removeFirst _ [] = []
@@ -93,7 +95,7 @@ alwaysPositiveA :: (Float -> Float) -> [Float] -> Bool
 alwaysPositiveA f = foldr ((&&) . (> 0) . f) True
 
 productSquareRootsB :: [Float] -> Float
-productSquareRootsB = foldr (\x result -> if x >= 0 then sqrt x * result else result) 1
+productSquareRootsB = foldr (\x xs -> if x >= 0 then sqrt x * xs else xs) 1
 
 reverseC :: [a] -> [a]
-reverseC = foldr (\x acc -> acc ++ [x]) []
+reverseC = foldr (\x xs -> xs ++ [x]) []
